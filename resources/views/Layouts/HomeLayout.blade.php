@@ -11,10 +11,18 @@
 
     <!-- Stylesheets
     ============================================= -->
+
+    <link href="<?= url('panel/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?= url('panel/css/bootstrap-reset.css') ?>" rel="stylesheet">
+    <link href="<?= url('panel/assets/font-awesome/css/font-awesome.css') ?>" rel="stylesheet" />
+    <link rel="stylesheet" href="<?= url('panel/css/owl.carousel.css') ?>" type="text/css">
+    <link href="<?= url('panel/css/style.css') ?>" rel="stylesheet">
+    <link href="<?= url('panel/css/style-responsive.css') ?>" rel="stylesheet" />
+
     <link href="<?= url('css/style.css') ?>" rel="stylesheet">
     <link href="<?= url('css/style-rtl.css') ?>" rel="stylesheet">
-    <link href="<?= url('css/skins/preview/skin-default.css') ?>" rel="stylesheet">
-
+    <link href="<?= url('css/scss/skins/preview/skin-default.scss') ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?= url('css/owl.carousel.css') ?>" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Favicon
     ============================================= -->
@@ -145,6 +153,28 @@
     <script src="<?= url('panel/js/jquery.sparkline.js') ?>" type="text/javascript"></script>
     <script src="<?= url('panel/js/owl.carousel.js') ?>" ></script>
     <script src="<?= url('panel/js/common-scripts.js') ?>"></script>
+    <script>
+
+        //owl carousel
+
+        $(document).ready(function() {
+            $("#owl-demo").owlCarousel({
+                navigation : true,
+                slideSpeed : 300,
+                paginationSpeed : 400,
+                singleItem : true
+
+            });
+        });
+
+        //custom select box
+
+        $(function(){
+            $('select.styled').customSelect();
+        });
+
+    </script>
+
     @yield('script')
 </body>
 

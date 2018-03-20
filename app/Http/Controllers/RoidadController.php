@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\RoidadModel;
 
 use App\SalonModel;
+use App\SeminarModel;
 use App\SpechModel;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class RoidadController extends Controller
      */
     public function index()
     {
-        $roidad = RoidadModel::orderBy('id', 'DESC')->get();
+        $roidad = SeminarModel::orderBy('id', 'DESC')->get();
         $spech=SpechModel::orderBy('id', 'DESC')->get();
         return view('Admin.Roidad.index',compact(['roidad','spech']));
     }
@@ -42,36 +43,21 @@ class RoidadController extends Controller
     public function store(Request $request)
     {
 
-        $record = new SpechModel();
-        $record->name = $request->input('img');
-        if( $request->hasFile('img') ) {
-            $FileName = time() . '.' . $request->file('img')->getClientOriginalExtension();
-            if ($request->file('img')->move('img', $FileName)) {
-                $record->img = $FileName;
-            }
-        }
-        $record->s_description = $request->input('s_description');
-        $record->save();
-        $Spech_id = $record->id;
 
-
-        $record = new RoidadModel();
+        $record = new SeminarModel();
 
         $record->title = $request->input('title');
-        $record->description = $request->input('description');
-        $record->salon_id = $request->input('salon_id');
         $record->date = $request->input('date');
-        $record->Spech_id=$Spech_id;
+        $record->description = $request->input('description');
+        $record->poster='0';
         $record->hour = $request->input('hour');
-        $record->time = $request->input('time');
-        if( $request->hasFile('poster') ){
-            $FileName = time().'.'.$request->file('poster')->getClientOriginalExtension();
-            if($request->file('poster')->move('poster',$FileName)){
-                $record->poster= $FileName;
-                if($record->save()) {
-                    return redirect()->back();
-                }
-            }
+        $record->time = 0;
+        $record->status=0;
+        $record->timestamp=$request->input('timestamp');;
+        $record->salon_id = 0;
+        $record->Spech_id=-1;
+        if($record->save()) {
+            return redirect()->back();
         }
 
     }

@@ -41,7 +41,7 @@
                     <div style="font-size: 25px; padding: 10px;" class="panel-heading">اطلاعات سمینار</div>
                          <div style="padding: 25px;" class="panel-body">
                 <div class="form-group">
-                    {{Form::label('title','عنوان سمینار',['class'=>'lbel control-label col-sm-3'])}}
+                    {{Form::label('name','عنوان سمینار',['class'=>'lbel control-label col-sm-3'])}}
                     <div class="col-sm-7">
                         {{ Form::text('title',null,['class'=>'form-control','placeholder'=>'عنوانی برای سمینار' ]) }}
                     </div>
@@ -50,14 +50,15 @@
                 <div class="form-group" onload="startTime()">
                     {{Form::label('date3','تاریخ برگزاری',['class'=>'control-label col-sm-3'])}}
                     <div class="col-sm-7" id="txt">
-                        <input name="date" type="text" id="pcal1" class="pdate">
-                        <input name="hour"  value="16:32" id="myTime" type="time"  placeholder="ساعت شروع">
+                        {{Form::input('text', 'date', null, ['class' => 'pdate','id' => 'pcal5'])  }}
+                        {{Form::input('time', 'hour', '16:32', ['id' => 'myTime','placeholder' => 'ساعت شروع'])  }}
+                        {{Form::input('int', 'timestamp', null, ['class' => 'pdate wide','id' => 'extra','style' => 'visibility: hidden'])  }}
                     </div>
                 </div>
                  <div class="form-group">
-                     {{Form::label('time','مدت زمان برگزاری (دقیقه)',['class'=>'lbel control-label col-sm-3'])}}
+                     {{Form::label('modat','مدت زمان برگزاری (دقیقه)',['class'=>'lbel control-label col-sm-3'])}}
                      <div class="col-sm-7">
-                         {{ Form::text('title',null,['class'=>'form-control','placeholder'=>'لطفا زمان به دقیقه و فقط میزان عدد آن را وارد نمایید' ]) }}
+                         {{ Form::input('int','time',null,['class'=>'form-control','placeholder'=>'لطفا زمان به دقیقه و فقط میزان عدد آن را وارد نمایید' ]) }}
                      </div>
                  </div>
 
@@ -88,7 +89,6 @@
                 {{Form::select('salon_id',$salon,['class'=>'form-control','style'=>'width:100%;']) }}
                 </div>
             </div>
-
 
 
         </div>
@@ -148,10 +148,14 @@
         }
     </script>
 
-    <script>
-        var objCal1 = new AMIB.persianCalendar( 'pcal1' , {
-            initialDate: '1396/1/1',
-        });
-    </script>
     <script src="<?= Url('js/bootstrap-fileupload.js'); ?>"></script>
+    <script>
+        var objCal5 = new AMIB.persianCalendar( 'pcal5', {
+            initialDate: '1397/1/1',
+            extraInputID: 'extra',
+            extraInputFormat: 'JD'
+            }
+        );
+    </script>
+
 @endsection

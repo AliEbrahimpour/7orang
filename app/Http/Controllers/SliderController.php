@@ -14,7 +14,9 @@ class SliderController extends Controller
      */
     public function index()
     {
-        //
+        $slider=SliderModel::all();
+
+        return view('Admin.Slider.index',['slider'=>$slider]);
     }
 
     /**

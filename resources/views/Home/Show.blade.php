@@ -5,9 +5,8 @@
 @endsection
 
 @section('style')
-
-
-
+    <link rel="stylesheet" href="<?= url('css/js-persian-cal.css') ?>">
+    <script src="<?= url('js/js-persian-cal.min.js') ?>"></script>
 @endsection
 
 @section('content')
@@ -61,6 +60,7 @@
 
                 <div class="section-content">
                     <div class="container">
+
                         <div class="row">
                             <div class="col-lg-12">
                                 <!--timeline start-->
@@ -69,14 +69,17 @@
                                         <div class="text-center mbot30">
                                             <h3 class="timeline-title">رویداد ها</h3>
                                             <p class="t-info">رویداد های پیش رو</p>
+                                            {{$date = date('Y-m-d')}}
+
                                         </div>
 
                                         <div class="timeline">
 
                                             <?php $i=-1 ?>
-                                            @foreach($roidad->all() as $roidd )
+                                            @foreach($seminar->all() as $smnr)
                                                 @foreach($spech->all() as $spch)
-                                                    @if($roidd->spech_id == $spch->id)
+
+                                                    @if($smnr->spech_id == $spch->id)
                                                         <?php $i++; ?>
                                                         @if($i%2 == 0)
                                                             <article class="timeline-item">
@@ -85,18 +88,24 @@
                                                                         <div class="panel-body">
                                                                             <span class="arrow"></span>
                                                                             <span class="timeline-icon red"></span>
-                                                                            <span class="timeline-date">{{$roidd->date}}</span>
-                                                                            <h1 style="color: #0e76e6">{{$roidd->title}}</h1>
+                                                                            <span class="timeline-date">{{$smnr->date}}</span>
+
+
+                                                                            {{Form::input('text', 'timef',$smnr->date, ['class' => 'pdate','id' => 'pcal5','onChange' => 'updatetime()' ])  }}
+                                                                            {{Form::input('text', 'timen',"", ['class' => 'pdate wide','id' => 'extra'])  }}
+
+
+                                                                            <h1 style="color: #0e76e6">{{$smnr->title}}</h1>
                                                                             <h4><a href="#">{{$spch->name}}</a></h4>
                                                                             <div class="album">
                                                                                 <a href="#">
-                                                                                    <img alt="" src="<?= Url('poster/'.$roidd->poster); ?>" width="80px" height="80px">
+                                                                                    <img alt="" src="<?= Url('poster/'.$smnr->poster); ?>" width="80px" height="80px">
                                                                                 </a>
 
                                                                             </div>
                                                                             <div style="margin-top: 110px;">
                                                                                 <div class="notification">
-                                                                                    <i class=" icon-exclamation-sign"></i> {{$roidd->description}} <a href="#">اطلاعات بیشتر</a>
+                                                                                    <i class=" icon-exclamation-sign"></i> {{$smnr->description}} <a href="#">اطلاعات بیشتر</a>
                                                                                 </div>
                                                                             </div>
 
@@ -104,7 +113,6 @@
                                                                     </div>
                                                                 </div>
                                                             </article>
-
                                                         @else
                                                             <article class="timeline-item alt">
 
@@ -113,18 +121,18 @@
                                                                         <div class="panel-body">
                                                                             <span class="arrow-alt"></span>
                                                                             <span class="timeline-icon green"></span>
-                                                                            <span class="timeline-date">{{$roidd->date}}</span>
-                                                                            <h1 style="color: #0e76e6">{{$roidd->title}}</h1>
+                                                                            <span class="timeline-date">{{$smnr->date}}</span>
+                                                                            <h1 style="color: #0e76e6">{{$smnr->title}}</h1>
                                                                             <h4><a href="#">{{$spch->name}}</a></h4>
                                                                             <div class="album">
                                                                                 <a href="#">
-                                                                                    <img alt="" src="<?= Url('poster/'.$roidd->poster); ?>" width="80px" height="80px">
+                                                                                    <img alt="" src="<?= Url('poster/'.$smnr->poster); ?>" width="80px" height="80px">
                                                                                 </a>
 
                                                                             </div>
                                                                             <div style="margin-top: 110px;">
                                                                                 <div class="notification">
-                                                                                    <i class=" icon-exclamation-sign"></i> {{$roidd->description}} <a href="#">اطلاعات بیشتر</a>
+                                                                                    <i class=" icon-exclamation-sign"></i> {{$smnr->description}} <a href="#">اطلاعات بیشتر</a>
                                                                                 </div>
                                                                             </div>                                                </div>
                                                                     </div>
@@ -132,10 +140,65 @@
                                                             </article>
                                                         @endif
 
+                                                    @elseif( $smnr->spech_id == -1)
+                                                        <?php $i++; ?>
+                                                        @if($i%2 == 0)
+                                                                <article class="timeline-item">
+                                                                    <div class="timeline-desk">
+                                                                        <div class="panel">
+                                                                            <div class="panel-body">
+                                                                                <span class="arrow"></span>
+                                                                                <span class="timeline-icon red"></span>
+                                                                                <span class="timeline-date">{{$smnr->date}}</span>
+                                                                                <h1 style="color: #0e76e6">{{$smnr->title}}</h1>
+                                                                                <h4><a href="#">{{$spch->name}}</a></h4>
+                                                                                <div class="album">
+                                                                                    <a href="#">
+                                                                                        <img alt="" src="<?= Url('poster/'.$smnr->poster); ?>" width="80px" height="80px">
+                                                                                    </a>
+
+                                                                                </div>
+                                                                                <div style="margin-top: 110px;">
+                                                                                    <div class="notification">
+                                                                                        <i class=" icon-exclamation-sign"></i> {{$smnr->description}} <a href="#">اطلاعات بیشتر</a>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </article>
+                                                        @else
+                                                                <article class="timeline-item alt">
+
+                                                                    <div class="timeline-desk">
+                                                                        <div class="panel">
+                                                                            <div class="panel-body">
+                                                                                <span class="arrow-alt"></span>
+                                                                                <span class="timeline-icon green"></span>
+                                                                                <span class="timeline-date">{{$smnr->date}}</span>
+                                                                                <h1 style="color: #0e76e6">{{$smnr->title}}</h1>
+                                                                                <h4><a href="#">{{$spch->name}}</a></h4>
+                                                                                <div class="album">
+                                                                                    <a href="#">
+                                                                                        <img alt="" src="<?= Url('poster/'.$smnr->poster); ?>" width="80px" height="80px">
+                                                                                    </a>
+
+                                                                                </div>
+                                                                                <div style="margin-top: 110px;">
+                                                                                    <div class="notification">
+                                                                                        <i class=" icon-exclamation-sign"></i> {{$smnr->description}} <a href="#">اطلاعات بیشتر</a>
+                                                                                    </div>
+                                                                                </div>                                                </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </article>
+                                                        @endif
+                                                    @break
                                                     @endif
+
                                                 @endforeach
                                             @endforeach
-
                                         </div>
 
                                         <div class="clearfix">&nbsp;</div>
@@ -611,6 +674,20 @@
 
     </div><!-- #full-container end -->
 
+    <script>
+    var objCal5 = new AMIB.persianCalendar( 'pcal5', {
+    extraInputID: 'extra',
+    extraInputFormat: 'YYYY/MM/DD'
+    }
+    );
+    </script>
+
+<script>
+    function updatetime() {
+        var price = $("#pcal5").val();
+        $("#extra").val(price);
+    }​
+</script>
 @endsection
 <?php
 function timez($date){
@@ -631,4 +708,8 @@ function comparedate($seminar_date,$roidad_date,$seminar,$roidad){
         return $roidad;
 }
 
+
 ?>
+
+
+

@@ -58,21 +58,27 @@ class SeminarController extends Controller
         $record = new SeminarModel();
         $record->title = $request->input('title');
         $record->date = $request->input('date');
+        $record->hour = $request->input('hour');
+        $record->time = $request->input('time');
+        $record->timestamp = $request->input('timestamp');
         $record->description = $request->input('description');
         $record->salon_id = $request->input('salon_id');
-        $record->date = $request->input('date');
         $record->Spech_id=$Spech_id;
 
         if( $request->hasFile('poster') ){
             $FileName = time().'.'.$request->file('poster')->getClientOriginalExtension();
             if($request->file('poster')->move('poster',$FileName)){
                 $record->poster= $FileName;
-                if($record->save()) {
-                    return redirect()->back();
-                }
             }
         }
+
+
+        $record->status=1;
+        if($record->save()) {
+            return redirect()->back();
+        }
     }
+
 
     /**
      * Display the specified resource.

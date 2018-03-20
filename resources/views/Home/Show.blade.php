@@ -69,7 +69,6 @@
                                         <div class="text-center mbot30">
                                             <h3 class="timeline-title">رویداد ها</h3>
                                             <p class="t-info">رویداد های پیش رو</p>
-                                            {{$date = date('Y-m-d')}}
 
                                         </div>
 
@@ -81,6 +80,10 @@
 
                                                     @if($smnr->spech_id == $spch->id)
                                                         <?php $i++; ?>
+                                                            <?php $date = emr(); ?>
+
+                                                            @if( $times = compare($date,timez($smnr->date)) )
+
                                                         @if($i%2 == 0)
                                                             <article class="timeline-item">
                                                                 <div class="timeline-desk">
@@ -90,12 +93,7 @@
                                                                             <span class="timeline-icon red"></span>
                                                                             <span class="timeline-date">{{$smnr->date}}</span>
 
-
-                                                                            {{Form::input('text', 'timef',$smnr->date, ['class' => 'pdate','id' => 'pcal5','onChange' => 'updatetime()' ])  }}
-                                                                            {{Form::input('text', 'timen',"", ['class' => 'pdate wide','id' => 'extra'])  }}
-
-
-                                                                            <h1 style="color: #0e76e6">{{$smnr->title}}</h1>
+                                                                            <a href="<?= url('/seminar/'.$smnr->id) ?>"> <h1 style="color: #0e76e6">{{$smnr->title}}</h1></a>
                                                                             <h4><a href="#">{{$spch->name}}</a></h4>
                                                                             <div class="album">
                                                                                 <a href="#">
@@ -122,7 +120,7 @@
                                                                             <span class="arrow-alt"></span>
                                                                             <span class="timeline-icon green"></span>
                                                                             <span class="timeline-date">{{$smnr->date}}</span>
-                                                                            <h1 style="color: #0e76e6">{{$smnr->title}}</h1>
+                                                                            <a href="<?= url('/seminar/'.$smnr->id) ?>"><h1 style="color: #0e76e6">{{$smnr->title}}</h1></a>
                                                                             <h4><a href="#">{{$spch->name}}</a></h4>
                                                                             <div class="album">
                                                                                 <a href="#">
@@ -139,9 +137,13 @@
                                                                 </div>
                                                             </article>
                                                         @endif
+                                                            @endif
 
                                                     @elseif( $smnr->spech_id == -1)
                                                         <?php $i++; ?>
+                                                            <?php $date = emr(); ?>
+                                                            @if( $times = compare($date,timez($smnr->date)) )
+
                                                         @if($i%2 == 0)
                                                                 <article class="timeline-item">
                                                                     <div class="timeline-desk">
@@ -194,6 +196,7 @@
                                                                     </div>
                                                                 </article>
                                                         @endif
+                                                            @endif
                                                     @break
                                                     @endif
 
@@ -707,8 +710,15 @@ function comparedate($seminar_date,$roidad_date,$seminar,$roidad){
     else
         return $roidad;
 }
-
-
+function emr(){
+$dt = new \Datetime();
+    Verta::setStringformat('Y/n/j');
+return new Verta($dt);
+}
+function compare($v1,$v2){
+    $v2 = Verta::createJalaliDate($v2[0],$v2[1],$v2[2]);
+    return $v2->gte($v1);
+    }
 ?>
 
 

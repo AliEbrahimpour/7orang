@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\RoidadModel;
 
 use App\SalonModel;
 use App\SeminarModel;
@@ -65,10 +64,10 @@ class RoidadController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\RoidadModel  $roidadModel
+     * @param  \App\Request  $Request
      * @return \Illuminate\Http\Response
      */
-    public function show(RoidadModel $roidadModel)
+    public function show(Request $Request)
     {
         //
     }
@@ -76,34 +75,49 @@ class RoidadController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\RoidadModel  $roidadModel
+     * @param  \App\Request  $Request
      * @return \Illuminate\Http\Response
      */
-    public function edit(RoidadModel $roidadModel)
+    public function edit($id)
     {
-        //
+        $roidad = SeminarModel::findOrFail($id);
+        return view('Admin.Roidad.edit',compact(['roidad']));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\RoidadModel  $roidadModel
+     * @param  \App\Request  $Request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RoidadModel $roidadModel)
+    public function update($id,Request $request)
     {
-        //
+        $record = SeminarModel::find($id);
+        $record->title = $request->input('title');
+        $record->date = $request->input('date');
+        $record->description = $request->input('description');
+        $record->poster='0';
+        $record->hour = $request->input('hour');
+        $record->time = 0;
+        $record->status=0;
+        $record->timestamp=$request->input('timestamp');;
+        $record->salon_id = 0;
+        $record->Spech_id=-1;
+        if($record->update()) {
+            return redirect()->back();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\RoidadModel  $roidadModel
+     * @param  \App\Request  $Request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RoidadModel $roidadModel)
+    public function destroy($id)
     {
-        //
+        $record = SeminarModel::find($id);
+        $record->delete();
     }
 }

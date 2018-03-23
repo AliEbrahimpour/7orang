@@ -20,65 +20,46 @@
 
                     <?php $i=-1 ?>
                 @foreach($roidad->all() as $roidd )
-                    @foreach($spech->all() as $spch)
-                        @if($roidd->spech_id == $spch->id)
+                        @if($roidd->spech_id == -1)
                                 <?php $i++; ?>
                             @if($i%2 == 0)
-                            <article class="timeline-item">
-                        <div class="timeline-desk">
-                            <div class="panel">
-                                <div class="panel-body">
-                                    <span class="arrow"></span>
-                                    <span class="timeline-icon red"></span>
-                                    <span class="timeline-date">{{$roidd->date}}</span>
-                                    <h1 style="color: #0e76e6">{{$roidd->title}}</h1>
-                                    <h4><a href="#">{{$spch->name}}</a></h4>
-                                    <div class="album">
-                                        <a href="#">
-                                            <img alt="" src="<?= Url('poster/'.$roidd->poster); ?>" width="80px" height="80px">
-                                        </a>
-
-                                    </div>
-                                    <div style="margin-top: 110px;">
-                                    <div class="notification">
-                                        <i class=" icon-exclamation-sign"></i> {{$roidd->description}} <a href="#">اطلاعات بیشتر</a>
-                                    </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                            @else
-                            <article class="timeline-item alt">
-
-                                        <div class="timeline-desk">
-                                            <div class="panel">
-                                                <div class="panel-body">
-                                                    <span class="arrow-alt"></span>
-                                                    <span class="timeline-icon green"></span>
-                                                    <span class="timeline-date">{{$roidd->date}}</span>
-                                                    <h1 style="color: #0e76e6">{{$roidd->title}}</h1>
-                                                    <h4><a href="#">{{$spch->name}}</a></h4>
-                                                    <div class="album">
-                                                        <a href="#">
-                                                            <img alt="" src="<?= Url('poster/'.$roidd->poster); ?>" width="80px" height="80px">
-                                                        </a>
-
-                                                    </div>
-                                                    <div style="margin-top: 110px;">
+                                        <article class="timeline-item">
+                                            <div class="timeline-desk">
+                                                <div class="panel">
+                                                    <div class="panel-body">
+                                                        <span class="arrow-alt"></span>
+                                                        <span class="timeline-icon purple"></span>
+                                                        <span class="timeline-date">{{$roidd->hour}}</span>
+                                                        <h2 style="color: #00A000">{{$roidd->title}}</h2>
+                                                        <h1 class="purple">{{$roidd->date}}</h1>
+                                                        <p> {{$roidd->description}}</p>
                                                         <div class="notification">
-                                                            <i class=" icon-exclamation-sign"></i> {{$roidd->description}} <a href="#">اطلاعات بیشتر</a>
+                                                            <h4><i class=" icon-exclamation-sign"></i> برای مشاهده اطلاعات بیشتر و ویرایش <a href="<?= url('/roidad/'.$roidd->id.'/edit') ?>">بر روی این گزینه کلیک کنید</a></h4>
                                                         </div>
-                                                    </div>                                                </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </article>
+                                        </article>
+                            @else
+                                        <article class="timeline-item alt">
+                                            <div class="timeline-desk">
+                                                <div class="panel">
+                                                    <div class="panel-body">
+                                                        <span class="arrow-alt"></span>
+                                                        <span class="timeline-icon purple"></span>
+                                                        <span class="timeline-date">{{$roidd->hour}}</span>
+                                                        <h2 style="color: #00A000">{{$roidd->title}}</h2>
+                                                        <h1 class="purple">{{$roidd->date}}</h1>
+                                                        <p> {{$roidd->description}}</p>
+                                                        <div class="notification">
+                                                            <h4><i class=" icon-exclamation-sign"></i> برای مشاهده اطلاعات بیشتر و ویرایش <a href="<?= url('/roidad/'.$roidd->id.'/edit') ?>">بر روی این گزینه کلیک کنید</a></h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    @endif
                             @endif
-
-                            @endif
-                    @endforeach
                 @endforeach
 
 

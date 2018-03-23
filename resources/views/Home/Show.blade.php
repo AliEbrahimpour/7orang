@@ -120,7 +120,7 @@
                                                                             <span class="arrow-alt"></span>
                                                                             <span class="timeline-icon green"></span>
                                                                             <span class="timeline-date">{{$smnr->date}}</span>
-                                                                            <a href="<?= url('/seminar/'.$smnr->id) ?>"><h1 style="color: #0e76e6">{{$smnr->title}}</h1></a>
+                                                                            <h1 style="color: #0e76e6">{{$smnr->title}}</h1>
                                                                             <h4><a href="#">{{$spch->name}}</a></h4>
                                                                             <div class="album">
                                                                                 <a href="#">

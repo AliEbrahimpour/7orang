@@ -3,7 +3,7 @@
 
 @section('title')
 
-    مشاهده سمینار جدید
+    ویرایش سیمنار
 
 @endsection
 
@@ -14,7 +14,9 @@
     <style>
         .thmnl{
             font-family: "B Yekan";
+            border: solid 1px black;
             padding: 25px;
+            border-radius: 25px 25px 5px 5px;
         }
         .thmnl input{
             color: black;
@@ -27,36 +29,43 @@
     <script src="<?= url('js/js-persian-cal.min.js') ?>"></script>
 
 @endsection
-
 @section('content')
     <div class="container">
 
         <div class="thmnl">
 
-            {!! Form::model($seminar,['method'=>'PATCH','url'=>['seminar/update',$seminar->id] , 'files'=>true]) !!}
+            {!! Form::open(['url'=>'/seminar','class'=>'form-horizontal','method'=>'post', 'files' => true]) !!}
 
             <div class="container">
                 <div style="border-radius: 0px;border: 1px solid #faebcc;" class=" panel panel-warning">
                     <div style="font-size: 25px; padding: 10px;" class="panel-heading">اطلاعات سمینار</div>
                     <div style="padding: 25px;" class="panel-body">
                         <div class="form-group">
-                            {{Form::label('title','عنوان سمینار',['class'=>'lbel control-label col-sm-3'])}}
+                            {{Form::label('name','عنوان سمینار',['class'=>'lbel control-label col-sm-3'])}}
                             <div class="col-sm-7">
-                                {{ Form::text('title',null,['class'=>'form-control','placeholder'=>'عنوان را وارد کنید' ]) }}
+                                {{ Form::text('title',$seminar->title,['class'=>'form-control','placeholder'=>'عنوانی برای سمینار' ]) }}
                             </div>
                         </div>
 
+                        <div class="form-group" onload="startTime()">
+                            {{Form::label('date3','تاریخ برگزاری',['class'=>'control-label col-sm-3'])}}
+                            <div class="col-sm-7" id="txt">
+                                {{Form::input('text', 'date', $seminar->date, ['class' => 'pdate','id' => 'pcal5'])  }}
+                                {{Form::input('time', 'hour', $seminar->hour, ['id' => 'myTime','placeholder' => 'ساعت شروع'])  }}
+                                {{Form::input('int', 'timestamp', null, ['class' => 'pdate wide','id' => 'extra','style' => 'visibility: hidden'])  }}
+                            </div>
+                        </div>
                         <div class="form-group">
-                            {{Form::label('date','تاریخ برگزاری',['class'=>'control-label col-sm-3'])}}
+                            {{Form::label('modat','مدت زمان برگزاری (دقیقه)',['class'=>'lbel control-label col-sm-3'])}}
                             <div class="col-sm-7">
-                                <input name="date" type="text" id="pcal1" class="pdate">
+                                {{ Form::input('int','time',$seminar->time,['class'=>'form-control','placeholder'=>'لطفا زمان به دقیقه و فقط میزان عدد آن را وارد نمایید' ]) }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{Form::label('description','توضیحات سمینار',['class'=>'control-label col-sm-3'])}}
                             <div class="col-sm-7">
-                                {{ Form::textarea('description',null,['class'=>'form-control','style'=>'height:150px;','maxlength'=>'150','placeholder'=>'حداکثر 150 کاراکتر' ]) }}
+                                {{ Form::textarea('description',$seminar->description,['class'=>'form-control','style'=>'height:150px;','maxlength'=>'150','placeholder'=>'توضیحات خود را در این قسمت وارد نمایید' ]) }}
                             </div>
                         </div>
 
@@ -66,7 +75,10 @@
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                     <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
                                     <div>
-                                        <span class="btn btn-file btn-success"><span class="fileupload-new">انتخاب عکس</span><span class="fileupload-exists">تغییر </span><input type="file" name="poster" /></span>
+                                        <span class="btn btn-file btn-success">
+                                            <span class="fileupload-new">انتخاب عکس</span>
+                                            <span class="fileupload-exists">تغییر </span>
+                                            <input type="file" name="poster" /></span>
                                         <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">حذف</a>
                                     </div>
                                 </div>
@@ -77,10 +89,9 @@
                         <div class="form-group">
                             {{Form::label('salon_id','سالن محل برگزاری',['class'=>'control-label col-sm-3'])}}
                             <div class="col-sm-7">
-                                {{Form::select('salon_id',$salon,['class'=>'form-control','style'=>'width:100%;']) }}
+                                {{Form::select('salon_id',$salon->name,['class'=>'form-control','style'=>'width:100%;']) }}
                             </div>
                         </div>
-
 
 
                     </div>
@@ -115,7 +126,7 @@
                         <div class="form-group">
                             {{Form::label('s_description','اطلاعات سخنران',['class'=>'control-label col-sm-3'])}}
                             <div class="col-sm-7">
-                                {{ Form::textarea('s_description',null,['class'=>'form-control','style'=>'height:150px;','maxlength'=>'150','placeholder'=>'حداکثر 150 کاراکتر' ]) }}
+                                {{ Form::textarea('s_description',null,['class'=>'form-control','style'=>'height:150px;','maxlength'=>'150','placeholder'=>'شرح اطلاعات سخنران' ]) }}
                             </div>
                         </div>
 
@@ -134,9 +145,20 @@
 
 @section('script')
     <script>
-        var objCal1 = new AMIB.persianCalendar( 'pcal1' , {
-            initialDate: '1396/1/1',
-        });
+        function myFunction() {
+            var x = document.getElementById("myTime").value;
+            document.getElementById("demo").innerHTML = x;
+        }
     </script>
+
     <script src="<?= Url('js/bootstrap-fileupload.js'); ?>"></script>
+    <script>
+        var objCal5 = new AMIB.persianCalendar( 'pcal5', {
+                initialDate: '1397/1/1',
+                extraInputID: 'extra',
+                extraInputFormat: 'JD'
+            }
+        );
+    </script>
+
 @endsection

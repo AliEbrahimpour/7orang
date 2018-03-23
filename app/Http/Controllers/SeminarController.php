@@ -103,7 +103,12 @@ class SeminarController extends Controller
      */
     public function edit($id)
     {
-        return "true";
+
+        $seminar = SeminarModel::findOrFail($id);
+        $salon = SalonModel::where('id' , $seminar->salon_id)->first();
+        $spech = SpechModel::where('id' , $seminar->spech_id)->first();
+
+        return view('Admin.Seminar.edit',compact(['salon','spech','seminar']));
     }
 
     /**
